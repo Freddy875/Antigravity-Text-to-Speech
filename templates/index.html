@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎙️ VozVerde TTS | Texto a Voz en Formato MP3</title>
+    <!-- Google Fonts: Handwritten styles Caveat, Patrick Hand & Kalam + Monospace code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Fira+Code:wght@400;600&family=Kalam:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Fondo con efecto de textura de pizarra oscura y viñeta verde tenue -->
+    <div class="chalkboard-bg"></div>
+
+    <div class="app-container">
+        <!-- Encabezado con estilo manuscrito y acentos neón verde -->
+        <header class="app-header">
+            <div class="brand">
+                <span class="brand-icon">🎙️</span>
+                <div class="brand-text">
+                    <h1>VozVerde TTS 🎵</h1>
+                    <p class="subtitle">Sintetizador Neural de Texto a Voz • Descarga Directa en Audio MP3 📥</p>
+                </div>
+            </div>
+            <div class="header-badges">
+                <div class="status-pill">
+                    <span class="status-dot"></span>
+                    <span>🟢 Voces Neurales Activas</span>
+                </div>
+                <div class="badge-accent">
+                    <span>⚡ Formato MP3 Listo</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenido Principal en Cuadrícula Responsiva -->
+        <main class="main-grid">
+            <!-- Columna Izquierda: Entrada de texto y configuración de voces -->
+            <section class="card input-section">
+                <!-- 1. Entrada de texto con botones para pegar/copiar/borrar -->
+                <div class="section-title-bar">
+                    <h2>✏️ 1. Copia o escribe tu texto</h2>
+                    <div class="text-stats">
+                        <span id="charCount">0</span>/10,000 caracteres | <span id="wordCount">0</span> palabras
+                    </div>
+                </div>
+
+                <!-- Barra de utilidades del texto -->
+                <div class="text-actions-bar">
+                    <button id="pasteTextBtn" class="btn-action-sm" type="button" title="Pegar texto desde el portapapeles">
+                        📋 Pegar texto
+                    </button>
+                    <button id="copyTextBtn" class="btn-action-sm" type="button" title="Copiar texto actual">
+                        📄 Copiar texto
+                    </button>
+                    <button id="clearTextBtn" class="btn-action-sm btn-action-danger" type="button" title="Borrar todo el texto">
+                        🧹 Borrar
+                    </button>
+                </div>
+
+                <!-- Textarea con diseño manuscrito de libreta -->
+                <div class="textarea-wrapper">
+                    <textarea 
+                        id="textInput" 
+                        placeholder="✍️ Copia o escribe aquí las palabras que deseas transformar en audio... Por ejemplo: ¡Hola! Te doy la bienvenida a VozVerde TTS. Convierte cualquier texto en audio MP3 de alta calidad con voz femenina o masculina en cuestión de segundos." 
+                        rows="6"
+                        maxlength="10000"
+                    ></textarea>
+                </div>
+
+                <!-- Plantillas de texto rápido con emojis -->
+                <div class="quick-samples">
+                    <span class="samples-label">💡 Ejemplos rápidos:</span>
+                    <button class="sample-tag" data-text="¡Hola a todos! Bienvenidos a un nuevo episodio. Hoy descubriremos cómo la inteligencia artificial sintetiza voces humanas con un realismo impresionante.">🎙️ Intro Podcast</button>
+                    <button class="sample-tag" data-text="Había una vez, en un rincón secreto del bosque nocturno, una pequeña luciérnaga esmeralda que susurraba hermosas historias a la luz de las estrellas.">📖 Cuento Mágico</button>
+                    <button class="sample-tag" data-text="Atención comunidad: Nos complace anunciar el lanzamiento del nuevo sintetizador de voz en formato MP3 de alta fidelidad. ¡Gracias por su preferencia!">📢 Noticia / Anuncio</button>
+                    <button class="sample-tag" data-text="Tres tristes tigres tragaban trigo en un trigal. En tres tristes trastos de trigo, tres tristes tigres comían trigo.">🗣️ Trabalenguas</button>
+                    <button class="sample-tag" data-text="El único modo de hacer un gran trabajo es amar lo que haces. Da lo mejor de ti cada día y los resultados hablarán por sí solos.">✨ Inspiración</button>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- 2. Selección de Voz: Femenina o Masculina -->
+                <div class="section-title-bar">
+                    <h2>👥 2. Selecciona la voz (Femenina o Masculina)</h2>
+                    <span class="tip-pill">✨ Elige entre voz de mujer o de hombre</span>
+                </div>
+
+                <!-- Selector Dual Rápido de Género (Mujer / Hombre) -->
+                <div class="gender-selector-hero">
+                    <div class="gender-card active" id="genderCardFemale" data-gender="Female">
+                        <div class="gender-card-header">
+                            <span class="gender-avatar">👩</span>
+                            <div class="gender-meta">
+                                <span class="gender-title">Voz Femenina</span>
+                                <span class="gender-active-voice" id="activeFemaleLabel">Dalia (México 🇲🇽)</span>
+                            </div>
+                        </div>
+                        <span class="gender-badge">⭐ Activa</span>
+                    </div>
+
+                    <div class="gender-card" id="genderCardMale" data-gender="Male">
+                        <div class="gender-card-header">
+                            <span class="gender-avatar">👨</span>
+                            <div class="gender-meta">
+                                <span class="gender-title">Voz Masculina</span>
+                                <span class="gender-active-voice" id="activeMaleLabel">Jorge (México 🇲🇽)</span>
+                            </div>
+                        </div>
+                        <span class="gender-badge">⭐ Seleccionar</span>
+                    </div>
+                </div>
+
+                <!-- Filtros secundarios: Selector de país / acento -->
+                <div class="voice-controls-row">
+                    <div class="voice-select-box">
+                        <label for="countrySelect">🌎 Filtrar Acento o País:</label>
+                        <select id="countrySelect" class="handwritten-select">
+                            <option value="ALL">🌎 Todos los países / Acentos</option>
+                            <option value="MX" selected>🇲🇽 México (Dalia / Jorge)</option>
+                            <option value="ES">🇪🇸 España (Elvira / Álvaro)</option>
+                            <option value="CO">🇨🇴 Colombia (Salomé / Gonzalo)</option>
+                            <option value="AR">🇦🇷 Argentina (Elena / Tomás)</option>
+                            <option value="CL">🇨🇱 Chile (Catalina / Lorenzo)</option>
+                            <option value="US">🇺🇸 EE.UU. (Paloma / Guy / Jenny)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Cuadrícula interactiva de tarjetas de voces disponibles -->
+                <div id="voicesGrid" class="voices-grid">
+                    <!-- Se renderiza dinámicamente con JavaScript -->
+                    <div class="loading-voices">Cargando catálogo de voces neurales...</div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Ajustes de Modulación: Velocidad y Tono -->
+                <div class="sliders-grid">
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <label for="rateSlider">🎚️ Velocidad de habla:</label>
+                            <span id="rateValue" class="slider-badge">Normal (0%)</span>
+                        </div>
+                        <input type="range" id="rateSlider" min="-50" max="50" value="0" step="5">
+                        <div class="slider-ticks">
+                            <span>🐢 -50% Lento</span>
+                            <span>Normal</span>
+                            <span>🐇 +50% Rápido</span>
+                        </div>
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <label for="pitchSlider">🎵 Tono de voz:</label>
+                            <span id="pitchValue" class="slider-badge">Natural (0Hz)</span>
+                        </div>
+                        <input type="range" id="pitchSlider" min="-30" max="30" value="0" step="5">
+                        <div class="slider-ticks">
+                            <span>🔉 Grave</span>
+                            <span>Natural</span>
+                            <span>🔊 Agudo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón Principal de Síntesis -->
+                <div class="action-bar">
+                    <button id="synthesizeBtn" class="btn-primary" type="button">
+                        <span class="btn-icon">⚡</span>
+                        <span class="btn-text">Generar Audio MP3 🎵</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Columna Derecha: Reproductor, Visualizador Reactivo y Descarga MP3 -->
+            <section class="card output-section">
+                <div class="section-title-bar">
+                    <h2>🎧 3. Reproductor y Descarga MP3</h2>
+                    <span id="outputFormatBadge" class="format-badge">🎵 Audio MP3</span>
+                </div>
+
+                <!-- Estado Inicial / Vacío -->
+                <div id="emptyState" class="empty-state">
+                    <div class="empty-icon">🎵</div>
+                    <p class="empty-title">Tu audio MP3 aparecerá aquí</p>
+                    <p class="empty-desc">Pega tu texto a la izquierda, selecciona una voz femenina o masculina y presiona el botón <strong>"⚡ Generar Audio MP3 🎵"</strong>.</p>
+                </div>
+
+                <!-- Reproductor Activo (Oculto inicialmente) -->
+                <div id="playerContainer" class="player-container hidden">
+                    <!-- Ficha informativa del audio que se está reproduciendo -->
+                    <div class="now-playing-card">
+                        <div class="now-playing-header">
+                            <span class="live-pulse-dot"></span>
+                            <span id="playerStatusText" class="now-playing-status">🟢 REPRODUCIENDO AUDIO</span>
+                        </div>
+                        <div class="now-playing-details">
+                            <span id="nowPlayingVoiceBadge" class="now-playing-voice">👩 Voz: Dalia (Mujer - México 🇲🇽)</span>
+                            <p id="nowPlayingSnippet" class="now-playing-snippet">"Vista previa del texto que se está reproduciendo..."</p>
+                        </div>
+                    </div>
+
+                    <!-- Visualizador Osciloscópico Reactivo Verde Neón -->
+                    <div class="visualizer-wrapper">
+                        <canvas id="waveformCanvas" width="600" height="130"></canvas>
+                        <div class="canvas-overlay-tag">
+                            <span class="pulse-circle"></span>
+                            <span id="visualizerVoiceTag">Voz Neural Activa</span>
+                        </div>
+                    </div>
+
+                    <!-- Elemento Audio HTML5 para control de reproducción -->
+                    <audio id="audioElement" preload="metadata"></audio>
+
+                    <!-- Línea de Tiempo Simple y Responsiva (Garantizada para NO desbordar la pantalla) -->
+                    <div class="timeline-wrapper">
+                        <div class="progress-container">
+                            <div class="time-display" id="currentTime">00:00</div>
+                            <div class="progress-bar-bg" id="progressBarBg" title="Haz clic o arrastra para mover el audio">
+                                <div class="progress-bar-fill" id="progressBarFill"></div>
+                                <div class="progress-handle" id="progressHandle"></div>
+                            </div>
+                            <div class="time-display" id="durationTime">00:00</div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de Control de Reproducción: Adelantar y Atrasar -->
+                    <div class="player-controls">
+                        <!-- Botón Atrasar Audio 5 segundos -->
+                        <button id="rewindBtn" class="ctrl-btn btn-rewind" type="button" title="Atrasar audio 5 segundos">
+                            <span class="ctrl-icon">⏪</span>
+                            <span class="ctrl-text">-5s Atrasar</span>
+                        </button>
+
+                        <!-- Botón Principal Play / Pause -->
+                        <button id="playPauseBtn" class="play-btn" type="button" title="Reproducir / Pausar">
+                            <span id="playIcon">▶</span>
+                        </button>
+
+                        <!-- Botón Adelantar Audio 5 segundos -->
+                        <button id="forwardBtn" class="ctrl-btn btn-forward" type="button" title="Adelantar audio 5 segundos">
+                            <span class="ctrl-text">Adelantar +5s</span>
+                            <span class="ctrl-icon">⏩</span>
+                        </button>
+
+                        <!-- Botón Reiniciar desde 0 -->
+                        <button id="restartBtn" class="ctrl-btn btn-restart" type="button" title="Reiniciar audio al principio">
+                            <span class="ctrl-icon">🔄</span>
+                            <span class="ctrl-text">Reiniciar</span>
+                        </button>
+
+                        <!-- Control de Volumen -->
+                        <div class="volume-box">
+                            <span class="vol-icon" id="volumeIcon" title="Volumen">🔊</span>
+                            <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="1" title="Ajustar volumen">
+                        </div>
+                    </div>
+
+                    <!-- Selector de Velocidad del Reproductor -->
+                    <div class="playback-speeds">
+                        <span class="playback-speed-label">⚡ Velocidad del reproductor:</span>
+                        <button class="speed-pill" data-speed="0.8">0.8x</button>
+                        <button class="speed-pill active" data-speed="1.0">1.0x (Normal)</button>
+                        <button class="speed-pill" data-speed="1.25">1.25x</button>
+                        <button class="speed-pill" data-speed="1.5">1.5x</button>
+                    </div>
+
+                    <!-- Panel Principal de Descarga en Formato MP3 -->
+                    <div class="download-hub">
+                        <h3 class="download-hub-title">💾 Descargar Archivo de Audio:</h3>
+                        
+                        <!-- BOTÓN PRINCIPAL DESTACADO: DESCARGA MP3 -->
+                        <a id="downloadMp3Btn" href="#" class="btn-download btn-download-mp3" download>
+                            <div class="dl-icon">📥</div>
+                            <div class="dl-details">
+                                <span class="dl-main">Descargar Audio en Formato MP3 (.mp3) 🎵</span>
+                                <span class="dl-sub" id="mp3SizeLabel">Calidad Neural Alta • Compatible con cualquier reproductor y móvil</span>
+                            </div>
+                            <span class="dl-badge">⭐ Principal</span>
+                        </a>
+
+                        <!-- Opciones Complementarias de Descarga -->
+                        <div class="download-alt-grid">
+                            <!-- Descarga Video MP4 con Oscilograma Verde Animado -->
+                            <button id="downloadVideoBtn" class="btn-download-alt" type="button">
+                                <span class="alt-icon">🎬</span>
+                                <div class="alt-texts">
+                                    <span class="alt-title">Video MP4 (.mp4)</span>
+                                    <span class="alt-desc">Con oscilograma verde neón</span>
+                                </div>
+                            </button>
+
+                            <!-- Descarga Audio MP4 (AAC) -->
+                            <a id="downloadMp4Btn" href="#" class="btn-download-alt" download>
+                                <span class="alt-icon">📁</span>
+                                <div class="alt-texts">
+                                    <span class="alt-title">Audio MP4 (.mp4)</span>
+                                    <span class="alt-desc">Contenedor AAC alternativo</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Historial de Generaciones de la Sesión -->
+                <div class="history-section">
+                    <div class="history-header">
+                        <h3>📜 Historial de Audios Generados</h3>
+                        <button id="clearHistoryBtn" class="btn-ghost-small" type="button">🧹 Limpiar historial</button>
+                    </div>
+                    <div id="historyList" class="history-list">
+                        <p class="history-empty">No hay audios en esta sesión aún.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Pie de página con información técnica y estética -->
+        <footer class="app-footer">
+            <p>VozVerde TTS 🎙️ • Pizarra Oscura con Verde Neón 🟢 • Descarga en Audio MP3 🎵 • Tipografía Manuscrita ✍️</p>
+        </footer>
+    </div>
+
+    <!-- Modal de Carga / Spinner con texto animado -->
+    <div id="loadingModal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="chalk-spinner"></div>
+            <h3 class="modal-title">Sintetizando tu audio MP3... 🎵</h3>
+            <p id="loadingStatusText" class="modal-desc">Generando ondas de voz neural y exportando en formato MP3...</p>
+        </div>
+    </div>
+
+    <!-- Scripts de la Aplicación -->
+    <script src="/static/js/visualizer.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
